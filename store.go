@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -15,7 +16,7 @@ type URLStore struct {
 }
 
 type record struct {
-	key, URL string
+	Key, URL string
 }
 
 const saveQueueLength = 1000
@@ -31,7 +32,9 @@ func (s *URLStore) load(filename string) error {
 	for err == nil {
 		var r record
 		if err = d.Decode(&r); err == nil {
-			s.Set(r.key, r.URL)
+			fmt.Println(r)
+			fmt.Println(r.Key, ":", r.URL)
+			s.Set(r.Key, r.URL)
 		}
 	}
 	if err == io.EOF {
