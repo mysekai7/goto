@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"net/http"
+	"log"
 )
 
 var (
@@ -19,7 +20,10 @@ func main() {
 	store = NewURLStore(*dataFile)
 	http.HandleFunc("/", Redirect)
 	http.HandleFunc("/add", Add)
-	http.ListenAndServe(*listenAddr, nil)
+	err :=http.ListenAndServe(*listenAddr, nil)
+        if err != nil {
+            log.Fatal("ListenAndServe: ", err)
+        } 
 }
 
 func Add(w http.ResponseWriter, r *http.Request) {
